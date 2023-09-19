@@ -236,8 +236,8 @@ y_pred = clf_gene_expr.predict(X_test)
 # Check the accuracy of the model
 print("F1 score:", f1_score(y_test, y_pred))
 # %%
-cm_dna_meth = confusion_matrix(y_test, y_pred)
-disp = ConfusionMatrixDisplay(confusion_matrix=cm_dna_meth)
+cm_gene_expr = confusion_matrix(y_test, y_pred)
+disp = ConfusionMatrixDisplay(confusion_matrix=cm_gene_expr)
 disp.plot()
 plt.show()
 # %%
