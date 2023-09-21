@@ -26,7 +26,17 @@ cpg_annot = pd.read_csv("CpG_hg19_annot.csv")
 
 
 # %%
+fig, axs = plt.subplots(nrows=1)
 
+# Before normalization, demo to show the differences of transformation
+axs.hist(gene_expr.iloc[:, 5], bins=15, edgecolor='black')
+axs.set_title('Before normalisation')
+
+axs.set_xlabel('Value of Col 5 of gene_expr data')
+axs.set_ylabel('Frequency')
+plt.tight_layout()
+plt.show()
+# %%
 # Normalization of data by log2 transformation
 
 dna_meth[dna_meth.columns[2:]] = np.log2(
@@ -34,6 +44,17 @@ dna_meth[dna_meth.columns[2:]] = np.log2(
 gene_expr[gene_expr.columns[2:]] = np.log2(
     gene_expr[gene_expr.columns[2:]] + 0.001)
 
+# %%
+
+fig, axs = plt.subplots(nrows=1)
+
+axs.hist(gene_expr.iloc[:, 5], bins=15, edgecolor='black')
+axs.set_title('After normalisation')
+
+axs.set_xlabel('Value of Col 5 of gene expr data')
+axs.set_ylabel('Frequency')
+plt.tight_layout()
+plt.show()
 
 # %%
 
@@ -181,7 +202,8 @@ print('best accuracy:', results['best_objective'])
 
 # fit the model with the best parameters
 params = results['best_params']
-params = {'criterion': 'gini', 'max_features': 'log2', 'min_samples_leaf': 9, 'min_samples_split': 4, 'n_estimators': 104}
+params = {'criterion': 'gini', 'max_features': 'log2',
+          'min_samples_leaf': 9, 'min_samples_split': 4, 'n_estimators': 104}
 # or hardcode the best parameters
 # clf_dna_meth = RandomForestClassifier(criterion="gini", max_features='log2',min_samples_leaf=1, min_samples_split=3, n_estimators=95)
 clf_dna_meth = RandomForestClassifier(criterion=params['criterion'], max_features=params['max_features'],
@@ -224,7 +246,8 @@ print('best parameters:', results['best_params'])
 print('best accuracy:', results['best_objective'])
 # %%
 params = results['best_params']
-params =  {'n_estimators': 104, 'min_samples_split': 9, 'min_samples_leaf': 9, 'max_features': 'log2', 'criterion': 'entropy'}
+params = {'n_estimators': 104, 'min_samples_split': 9,
+          'min_samples_leaf': 9, 'max_features': 'log2', 'criterion': 'entropy'}
 
 clf_gene_expr = RandomForestClassifier(criterion=params['criterion'], max_features=params['max_features'],
                                        min_samples_leaf=params['min_samples_leaf'], min_samples_split=params['min_samples_split'], n_estimators=params['n_estimators'])
